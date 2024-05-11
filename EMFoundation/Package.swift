@@ -42,6 +42,11 @@ let package = Package(
             name: "EMNetworkKit",
             type: .static,
             targets: ["EMNetworkKit"]
+        ),
+        .library(
+            name: "EMAppLanguage",
+            type: .static,
+            targets: ["EMAppLanguage"]
         )
     ],
     dependencies: [
@@ -85,6 +90,10 @@ let package = Package(
         .target(
             name: "EMNetworkKit",
             path: "EMNetworkKit/Sources"
+        ),
+        .target(
+            name: "EMAppLanguage",
+            path: "EMAppLanguage/Sources"
         )
     ]
 )
