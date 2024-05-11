@@ -89,6 +89,9 @@ let package = Package(
         ),
         .target(
             name: "EMNetworkKit",
+            dependencies: [
+                "EMFoundation"
+            ],
             path: "EMNetworkKit/Sources"
         ),
         .target(
