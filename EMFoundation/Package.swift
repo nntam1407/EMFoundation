@@ -37,6 +37,11 @@ let package = Package(
             name: "EMCaching",
             type: .static,
             targets: ["EMCaching"]
+        ),
+        .library(
+            name: "EMNetworkKit",
+            type: .static,
+            targets: ["EMNetworkKit"]
         )
     ],
     dependencies: [
@@ -76,6 +81,10 @@ let package = Package(
         .target(
             name: "EMCaching",
             path: "EMCaching/Sources"
+        ),
+        .target(
+            name: "EMNetworkKit",
+            path: "EMNetworkKit/Sources"
         )
     ]
 )
