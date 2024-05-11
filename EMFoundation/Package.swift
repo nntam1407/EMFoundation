@@ -22,10 +22,26 @@ let package = Package(
             name: "EMUIKit",
             type: .static,
             targets: ["EMUIKit"]
+        ),
+        .library(
+            name: "EMYouTubeScraper",
+            type: .static,
+            targets: ["EMYouTubeScraper"]
+        ),
+        .library(
+            name: "EMScaffoldKit",
+            type: .static,
+            targets: ["EMScaffoldKit"]
+        ),
+        .library(
+            name: "EMCaching",
+            type: .static,
+            targets: ["EMCaching"]
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1"))
+        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1")),
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -41,6 +57,25 @@ let package = Package(
                 .product(name: "SnapKit", package: "SnapKit")
             ],
             path: "EMUIKit/Sources"
+        ),
+        .target(
+            name: "EMYouTubeScraper",
+            dependencies: [
+                "EMFoundation",
+                .product(name: "SwiftSoup", package: "SwiftSoup")
+            ],
+            path: "EMYouTubeScraper/Sources"
+        ),
+        .target(
+            name: "EMScaffoldKit",
+            dependencies: [
+                "EMUIKit"
+            ],
+            path: "EMScaffoldKit/Sources"
+        ),
+        .target(
+            name: "EMCaching",
+            path: "EMCaching/Sources"
         )
     ]
 )
