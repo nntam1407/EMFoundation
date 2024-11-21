@@ -7,8 +7,8 @@
 
 import Foundation
 
-open class EMThreadSafeArray<T>: Collection {
-    
+open class EMThreadSafeArray<T>: Collection, @unchecked Sendable {
+
     private var array: [T]
     private let locker = NSRecursiveLock()
 
@@ -102,5 +102,17 @@ public extension EMThreadSafeArray {
         defer { locker.unlock() }
 
         return array.removeLast()
+    }
+
+    @discardableResult
+    func remove(at index: Int) -> Element? {
+        locker.lock()
+        defer { locker.unlock() }
+
+        guard index >= 0, index < array.count else {
+            return nil
+        }
+
+        return array.remove(at: index)
     }
 }
