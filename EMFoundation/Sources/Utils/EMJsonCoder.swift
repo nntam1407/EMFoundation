@@ -53,7 +53,7 @@ public struct EMJsonCoder: Sendable {
 }
 
 public extension EMJsonCoder {
-    func decode<T>(fromJsonData jsonData: Data) throws(DecodingError) -> T where T: Decodable {
+    func decodeThrowable<T>(fromJsonData jsonData: Data) throws(DecodingError) -> T where T: Decodable {
         do {
             return try decoder.decode(T.self, from: jsonData)
         }
@@ -73,12 +73,12 @@ public extension EMJsonCoder {
         }
     }
 
-    func decode<T>(fromJsonString jsonString: String) throws(DecodingError) -> T where T: Decodable {
+    func decodeThrowable<T>(fromJsonString jsonString: String) throws(DecodingError) -> T where T: Decodable {
         guard let jsonData = jsonString.data(using: .utf8) else {
             throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "Invalid Json format!"))
         }
 
-        return try decode(fromJsonData: jsonData)
+        return try decodeThrowable(fromJsonData: jsonData)
     }
 
     func decode<T>(fromJsonString jsonString: String) -> T? where T: Decodable {
@@ -96,7 +96,7 @@ public extension EMJsonCoder {
 }
 
 public extension EMJsonCoder {
-    func encode<T>(value: T) throws(EncodingError) -> Data where T: Encodable {
+    func encodeThrowable<T>(value: T) throws(EncodingError) -> Data where T: Encodable {
         do {
             return try encoder.encode(value)
         }
@@ -112,8 +112,8 @@ public extension EMJsonCoder {
         try? encoder.encode(value)
     }
 
-    func encode<T>(value: T) throws(EncodingError) -> String where T: Encodable {
-        let encodedData: Data = try encode(value: value)
+    func encodeThrowable<T>(value: T) throws(EncodingError) -> String where T: Encodable {
+        let encodedData: Data = try encodeThrowable(value: value)
 
         guard let jsonString = String(data: encodedData, encoding: .utf8) else {
             throw EncodingError.invalidValue(value, .init(codingPath: [], debugDescription: "Invalid json format!"))
