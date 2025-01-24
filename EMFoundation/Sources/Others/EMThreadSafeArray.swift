@@ -122,4 +122,11 @@ public extension EMThreadSafeArray {
 
         return try array.first(where: predicate)
     }
+
+    func firstIndex(where predicate: (Element) throws -> Bool) rethrows -> Int? {
+        locker.lock()
+        defer { locker.unlock() }
+
+        return try array.firstIndex(where: predicate)
+    }
 }
