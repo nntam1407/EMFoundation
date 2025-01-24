@@ -7,30 +7,30 @@
 
 import Foundation
 
-open class EMThreadSafeArray<T>: Collection, @unchecked Sendable {
+open class EMThreadSafeArray<Element>: @unchecked Sendable {
 
-    private var array: [T]
+    private var array: [Element]
     private let locker = NSRecursiveLock()
 
-    public init(array: [T] = [T]()) {
+    public init(array: [Element] = [Element]()) {
         self.array = array
     }
 
-    public var startIndex: Array<T>.Index {
+    public var startIndex: Array<Element>.Index {
         locker.lock()
         defer { locker.unlock() }
 
         return array.startIndex
     }
 
-    public var endIndex: Array<T>.Index {
+    public var endIndex: Array<Element>.Index {
         locker.lock()
         defer { locker.unlock() }
 
         return array.endIndex
     }
 
-    public subscript(position: Int) -> T {
+    public subscript(position: Int) -> Element {
         get {
             locker.lock()
             defer { locker.unlock() }
@@ -114,5 +114,12 @@ public extension EMThreadSafeArray {
         }
 
         return array.remove(at: index)
+    }
+
+    func first(where predicate: (Element) throws -> Bool) rethrows -> Element? {
+        locker.lock()
+        defer { locker.unlock() }
+
+        return try array.first(where: predicate)
     }
 }
